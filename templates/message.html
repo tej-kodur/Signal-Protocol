@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Message</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/messages_style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Profile : {{username}}</h1>
+        <form action="/message/{{ username }}" method="post" class="form-group">
+            <input type="hidden" name="username" value="{{ username }}">
+            <label for="recipient">To:</label>
+            <input type="text" id="recipient" name="recipient" required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+        <br>
+        <div class="buttons">
+            <a href="/message/{{ username }}?view=true"><button class="view-btn">View My Messages</button></a>
+            <a href="/clear_messages/{{ username }}"><button class="clear-btn">Clear Messages</button></a>
+        </div>
+        {% if messages %}
+            <h2>My Messages</h2>
+            <ul class="message-list">
+                {% for sender, message, enc_msg in messages %}
+                    <li>
+                        <strong>From {{ sender }}:</strong> {{ message }}
+                        <br>
+                        <span class="enc-msg"><strong>Encrypted Msg:</strong> {{ enc_msg }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
